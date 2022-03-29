@@ -2,8 +2,10 @@
 using FluentResults;
 using Microsoft.AspNetCore.Identity;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using UsuariosAPI.Database.Dtos;
+using UsuariosAPI.Database.Request;
 using UsuariosAPI.Models;
 
 namespace UsuariosAPI.Services
@@ -21,21 +23,37 @@ namespace UsuariosAPI.Services
 
         
 
-        internal Result CadastroUsuario(CreateUsuarioDto createDto)
+        public Result CadastraUsuario(CreateUsuarioDto createDto)
         {
             Usuario usuario = _mapper.Map<Usuario>(createDto);
             IdentityUser<int> usuarioIdentity = _mapper.Map<IdentityUser<int>>(usuario);
             
-            Task<IdentityResult> resultadoIdentity = _userManager.CreateAsync(usuarioIdentity, createDto.Password);
+            Task<IdentityResult> resultadoIdentity = _userManager
+                .CreateAsync(usuarioIdentity, createDto.Password);
 
             if (resultadoIdentity.Result.Succeeded)
             {
+                string code = _userManager.GenerateEmailConfirmationTokenAsync(usuarioIdentity).Result;
+                return Result.Ok()
+                    .WithSuccess(code);
+            }
+            
+            return Result.Fail("Falha ao cadastrar um usuário");
+    
+        }
+
+        public Result AtivaContaUsuario(AtivaContaRequest request)
+        {
+            var identityUser = _userManager
+                .Users
+                .FirstOrDefault(u => u.Id == request.UsuarioId);
+
+            var identityResult = _userManager.ConfirmEmailAsync(identityUser, request.CodigoDeAtivacao).Result;
+            if (identityResult.Succeeded)
+            {
                 return Result.Ok();
             }
-            else
-            {
-                return Result.Fail("Falha ao cadastrar um usuário");
-            }
+            return Result.Fail("Falha ao ativar conta do usuário");
         }
     }
 }
