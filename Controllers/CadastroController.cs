@@ -23,12 +23,15 @@ namespace UsuariosAPI.Controllers
         public IActionResult CadastraUsuario(CreateUsuarioDto createDto)
         {
             Result resultado = _cadastroService.CadastraUsuario(createDto);
-            if (resultado.IsFailed) return StatusCode(500);
-            return Ok(resultado.Successes);
+            if (resultado.IsFailed)
+            {
+                return StatusCode(500);
+            }
+                return Ok(resultado.Successes);
         }
 
-       [HttpPost("/ativa")]
-       public IActionResult AtivaContaUsuario(AtivaContaRequest request)
+       [HttpGet("/ativa")]
+       public IActionResult AtivaContaUsuario([FromQuery] AtivaContaRequest request)
         {
             Result resultado = _cadastroService.AtivaContaUsuario(request);
             if (resultado.IsFailed)
