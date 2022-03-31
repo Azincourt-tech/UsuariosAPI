@@ -4,10 +4,10 @@ namespace UsuariosAPI.Database.Request
 {
     public class LoginRequest
     {
-        [Required]
+        [Required(ErrorMessage = "O campo Username é obrigatório")]
         public string Username { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "O campo Password é obrigatório")]
         public string Password { get; set; }
     }
 }
