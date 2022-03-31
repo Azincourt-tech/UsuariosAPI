@@ -29,7 +29,7 @@ namespace UsuariosAPI.Services
             var token = new JwtSecurityToken(
                 claims: diretosUsuario,
                 signingCredentials: credenciais,
-                expires: System.DateTime.UtcNow.AddHours(2)
+                expires: System.DateTime.UtcNow.AddHours(1)
                 );
 
             var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
