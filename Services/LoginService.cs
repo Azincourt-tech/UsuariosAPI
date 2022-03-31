@@ -48,8 +48,6 @@ namespace UsuariosAPI.Services
             return Result.Fail("Falha ao solicitar o reset de senha");
         }
 
-       
-
         public Result ResetaSenhaUsuario(EfetuaResetRequest request)
         {
             IdentityUser<int> identityUser = RecuperaUsuarioPorEmail(request.Email);

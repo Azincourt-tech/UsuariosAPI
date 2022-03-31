@@ -62,5 +62,24 @@ namespace UsuariosAPI.Services
             }
             return Result.Fail("Falha ao ativar conta do usuário");
         }
+
+        public Result RemoveContaUsuario(int id)
+        {
+            IdentityUser<int> identityUser = RecuperaUsuarioPorid(id);
+
+            var IdentityUser = _userManager.Users.FirstOrDefault(u => u.Id == id);
+
+            if (IdentityUser.Id == id)
+            {
+                return Result.Ok();
+            }
+            return Result.Fail("Não contem este usuario");
+        }
+
+        private IdentityUser<int> RecuperaUsuarioPorid(int id)
+        {
+            return _userManager.Users.FirstOrDefault(u => u.Id == id);
+        }
+
     }
 }

@@ -4,6 +4,11 @@ using System;
 using UsuariosAPI.Database.Dtos;
 using UsuariosAPI.Database.Request;
 using UsuariosAPI.Services;
+using UsuariosAPI.Database;
+using System.Linq;
+using UsuariosAPI.Models;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 namespace UsuariosAPI.Controllers
 {
@@ -13,10 +18,12 @@ namespace UsuariosAPI.Controllers
     public class CadastroController : ControllerBase
     {
         private CadastroService _cadastroService;
+        private UserDbContext _userDbContext;
 
-        public CadastroController(CadastroService cadastroService)
+        public CadastroController(CadastroService cadastroService, UserDbContext context)
         {
             _cadastroService = cadastroService;
+            _userDbContext = context;
         }
 
         [HttpPost]
@@ -39,6 +46,22 @@ namespace UsuariosAPI.Controllers
                 return StatusCode(500);
             }
             return Ok(resultado.Successes);
+       }
+
+        [HttpDelete("{id}")]
+        public IActionResult RemoveContaUsuario(int id)
+        {
+            Result result = _cadastroService.RemoveContaUsuario(id);
+            if (result.IsFailed)
+            {
+                return StatusCode(404); //404
+            }
+
+            _userDbContext.Remove(result);
+            _userDbContext.SaveChanges();
+
+            return Ok(result.Successes); // 204
         }
+
     }
 }
