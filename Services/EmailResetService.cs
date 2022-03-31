@@ -7,19 +7,19 @@ using UsuariosAPI.Models;
 
 namespace UsuariosAPI.Services
 {
-    public class EmailService : IEmail
+    public class EmailResetService : IEmail
     {
 
         private IConfiguration _configuration;
 
-        public EmailService(IConfiguration configuration)
+        public EmailResetService(IConfiguration configuration)
         {
             _configuration = configuration;
         }
 
-        public void EnviarEmail(string[] destinario, string assunto, int usuarioId, string code)
+        public void EnviarEmail(string[] destinario, string assunto, string code)
         {
-            Mensagem mensagem = new Mensagem(destinario, assunto, usuarioId, code);
+            Mensagem mensagem = new Mensagem(destinario, assunto, code);
             var mensagemDeEmail = CriaCorpoEmail(mensagem);
             Enviar(mensagemDeEmail);
         }
@@ -35,15 +35,15 @@ namespace UsuariosAPI.Services
 
                     client.AuthenticationMechanisms.Remove("XOUATH2");
 
-                    client.Authenticate(_configuration.GetValue<string>("EmailSettings:From"), 
+                    client.Authenticate(_configuration.GetValue<string>("EmailSettings:From"),
                         _configuration.GetValue<string>("EmailSettings:Password"));
 
                     client.Send(mensagemDeEmail);
                 }
                 catch (Exception)
                 {
-                    
-                   
+
+
                 }
                 finally
                 {

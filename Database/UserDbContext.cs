@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
+using UsuariosAPI.Models;
 
 namespace UsuariosAPI.Database
 {
@@ -14,6 +15,7 @@ namespace UsuariosAPI.Database
         public UserDbContext(DbContextOptions<UserDbContext> opt) : base(opt)
         {
         }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)   // Reescreve metodo OnConfiguring, passando a string de conexão com o banco;
         {
             IConfiguration configuration = new ConfigurationBuilder()

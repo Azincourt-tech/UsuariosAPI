@@ -63,23 +63,21 @@ namespace UsuariosAPI.Services
             return Result.Fail("Falha ao ativar conta do usuário");
         }
 
-        public Result RemoveContaUsuario(int id)
+        public Result ExcluirContaPorID(int id)
         {
-            IdentityUser<int> identityUser = RecuperaUsuarioPorid(id);
+            var identityUser = _userManager
+                .Users.FirstOrDefault(u => u.Id == id);
 
-            var IdentityUser = _userManager.Users.FirstOrDefault(u => u.Id == id);
+            var IdentityResult = _userManager.DeleteAsync(identityUser).Result;
 
-            if (IdentityUser.Id == id)
+            if (IdentityResult.Succeeded)
             {
                 return Result.Ok();
             }
-            return Result.Fail("Não contem este usuario");
+            return Result.Fail("Erro na operação");
+           
         }
 
-        private IdentityUser<int> RecuperaUsuarioPorid(int id)
-        {
-            return _userManager.Users.FirstOrDefault(u => u.Id == id);
-        }
 
     }
 }

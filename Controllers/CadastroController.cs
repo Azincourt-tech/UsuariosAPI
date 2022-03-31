@@ -48,19 +48,19 @@ namespace UsuariosAPI.Controllers
             return Ok(resultado.Successes);
        }
 
-        [HttpDelete("{id}")]
-        public IActionResult RemoveContaUsuario(int id)
+        [HttpDelete("/{id}")]
+        public IActionResult ExcluirConta(int id)
         {
-            Result result = _cadastroService.RemoveContaUsuario(id);
-            if (result.IsFailed)
+            Result result = _cadastroService.ExcluirContaPorID(id);
+            if (result == null)
             {
-                return StatusCode(404); //404
+                return NotFound();
+                
             }
-
             _userDbContext.Remove(result);
             _userDbContext.SaveChanges();
+            return NoContent();
 
-            return Ok(result.Successes); // 204
         }
 
     }

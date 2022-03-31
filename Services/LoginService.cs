@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Linq;
+using System.Web;
 using UsuariosAPI.Database.Request;
 using UsuariosAPI.Models;
 
@@ -12,11 +13,13 @@ namespace UsuariosAPI.Services
 
         private SignInManager<IdentityUser<int>> _signInManager;
         private TokenService _tokenService;
+        private EmailResetService _emailResetService;
 
-        public LoginService(SignInManager<IdentityUser<int>> signInManager, TokenService tokenService)
+        public LoginService(SignInManager<IdentityUser<int>> signInManager, TokenService tokenService, EmailResetService emailResetService)
         {
             _signInManager = signInManager;
             _tokenService = tokenService;
+            _emailResetService = emailResetService;
         }
 
         public Result LogaUsuario(LoginRequest request)
@@ -42,7 +45,13 @@ namespace UsuariosAPI.Services
             if (identityUser != null)
             {
                 string codigoDeRecuperacao = _signInManager.UserManager.GeneratePasswordResetTokenAsync(identityUser).Result;
+                
+                var encodedCode = HttpUtility.UrlEncode(codigoDeRecuperacao);
+
+                _emailResetService.EnviarEmail(new[] { identityUser.Email }, "Token de Autenticação", encodedCode);
                 return Result.Ok().WithSuccess(codigoDeRecuperacao);
+
+
             }
 
             return Result.Fail("Falha ao solicitar o reset de senha");

@@ -43,11 +43,13 @@ namespace UsuariosAPI
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "UsuariosAPI", Version = "v1" });
             });
+
             services.AddScoped<CadastroService, CadastroService>();
             services.AddScoped<LoginService, LoginService>();
             services.AddScoped<TokenService, TokenService>();
             services.AddScoped<LogoutService, LogoutService>();
             services.AddScoped<EmailService, EmailService>();
+            services.AddScoped<EmailResetService, EmailResetService>();
 
             services.AddDbContext<UserDbContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("UsuarioConnection")));
