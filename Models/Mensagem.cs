@@ -21,10 +21,9 @@ namespace UsuariosAPI.Models
 
         }
 
-
         public Mensagem(IEnumerable<string> destinatario, string assunto, string codigo)
         {
-            Destinatario=new List<MailboxAddress>();
+            Destinatario = new List<MailboxAddress>();
             Destinatario.AddRange(destinatario.Select(d => new MailboxAddress(d)));
             Assunto = assunto;
             Conteudo = codigo;

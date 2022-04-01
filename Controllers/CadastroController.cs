@@ -9,6 +9,7 @@ using System.Linq;
 using UsuariosAPI.Models;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 
 namespace UsuariosAPI.Controllers
 {
@@ -18,12 +19,10 @@ namespace UsuariosAPI.Controllers
     public class CadastroController : ControllerBase
     {
         private CadastroService _cadastroService;
-        private UserDbContext _userDbContext;
 
-        public CadastroController(CadastroService cadastroService, UserDbContext context)
+        public CadastroController(CadastroService cadastroService)
         {
             _cadastroService = cadastroService;
-            _userDbContext = context;
         }
 
         [HttpPost]
@@ -57,9 +56,7 @@ namespace UsuariosAPI.Controllers
                 return NotFound();
                 
             }
-            _userDbContext.Remove(result);
-            _userDbContext.SaveChanges();
-            return NoContent();
+            return Ok(result.Successes);
 
         }
 

@@ -19,8 +19,8 @@ namespace UsuariosAPI.Services
 
         public void EnviarEmail(string[] destinario, string assunto, string code)
         {
-            Mensagem mensagem = new Mensagem(destinario, assunto, code);
-            var mensagemDeEmail = CriaCorpoEmail(mensagem);
+            Mensagem mensagemReset = new Mensagem(destinario, assunto, code);
+            var mensagemDeEmail = CriaCorpoEmail(mensagemReset);
             Enviar(mensagemDeEmail);
         }
 
@@ -53,15 +53,15 @@ namespace UsuariosAPI.Services
             }
         }
 
-        private MimeMessage CriaCorpoEmail(Mensagem mensagem)
+        private MimeMessage CriaCorpoEmail(Mensagem mensagemReset)
         {
             var mensagemDeEmail = new MimeMessage();
             mensagemDeEmail.From.Add(new MailboxAddress(_configuration.GetValue<string>("EmailSettings:From")));
-            mensagemDeEmail.To.AddRange(mensagem.Destinatario);
-            mensagemDeEmail.Subject = mensagem.Assunto;
+            mensagemDeEmail.To.AddRange(mensagemReset.Destinatario);
+            mensagemDeEmail.Subject = mensagemReset.Assunto;
             mensagemDeEmail.Body = new TextPart(MimeKit.Text.TextFormat.Text)
             {
-                Text = mensagem.Conteudo
+                Text = mensagemReset.Conteudo
             };
 
             return mensagemDeEmail;

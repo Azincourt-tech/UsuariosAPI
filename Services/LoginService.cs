@@ -45,11 +45,9 @@ namespace UsuariosAPI.Services
             if (identityUser != null)
             {
                 string codigoDeRecuperacao = _signInManager.UserManager.GeneratePasswordResetTokenAsync(identityUser).Result;
-                
-                var encodedCode = HttpUtility.UrlEncode(codigoDeRecuperacao);
 
-                _emailResetService.EnviarEmail(new[] { identityUser.Email }, "Token de Autenticação", encodedCode);
-                return Result.Ok().WithSuccess(codigoDeRecuperacao);
+                _emailResetService.EnviarEmail(new[] { identityUser.Email }, "Token de Autenticação", codigoDeRecuperacao);
+                return Result.Ok().WithSuccess("Codigo enviado para email com sucesso: " + codigoDeRecuperacao);
 
 
             }
