@@ -56,7 +56,8 @@ namespace UsuariosAPI.Controllers
                 return NotFound();
                 
             }
-            return Ok(result.Successes);
+                return Ok(result.Successes);
+           
 
         }
 

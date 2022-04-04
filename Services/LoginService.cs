@@ -33,7 +33,7 @@ namespace UsuariosAPI.Services
                     .FirstOrDefault(usuario => usuario.NormalizedUserName == request.Username.ToUpper());
 
                 Token token = _tokenService.CreateToken(identityUser);
-                return Result.Ok().WithSuccess(token.Value);
+                return Result.Ok().WithSuccess("Lofin realizado com êxito" + token.Value);
             }
                 return Result.Fail("Login falhou");
         }

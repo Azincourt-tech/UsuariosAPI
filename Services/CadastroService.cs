@@ -42,10 +42,10 @@ namespace UsuariosAPI.Services
 
                 _emailService.EnviarEmail(new [] {usuarioIdentity.Email}, "Link de Ativação", usuarioIdentity.Id, encodedCode);
                 return Result.Ok()
-                    .WithSuccess(code);
+                    .WithSuccess("Link de autenticação enviado para email com sucesso: " + code);
             }
             
-            return Result.Fail("Falha ao cadastrar um usuário");
+            return Result.Fail("Falha ao cadastrar usuário");
     
         }
 
@@ -58,7 +58,7 @@ namespace UsuariosAPI.Services
             var identityResult = _userManager.ConfirmEmailAsync(identityUser, request.CodigoDeAtivacao).Result;
             if (identityResult.Succeeded)
             {
-                return Result.Ok();
+                return Result.Ok().WithSuccess("Conta verificada com êxito");
             }
             return Result.Fail("Falha ao ativar conta do usuário");
         }
@@ -72,7 +72,7 @@ namespace UsuariosAPI.Services
 
             if (IdentityResult.Succeeded)
             {
-                return Result.Ok();
+                return Result.Ok().WithSuccess("Conta excluida com êxito");
             }
             return Result.Fail("Erro na operação");
            
