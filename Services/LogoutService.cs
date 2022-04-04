@@ -15,7 +15,7 @@ namespace UsuariosAPI.Services
         public Result DeslogaUsuario()
         {
             var resultadoIdentity = _signInManager.SignOutAsync();
-            if (resultadoIdentity.IsCompletedSuccessfully) return Result.Ok().WithSuccess("Logou realizado com êxito!");
+            if (resultadoIdentity.IsCompletedSuccessfully) return Result.Ok().WithSuccess("Logout realizado com êxito!");
             return Result.Fail("Logout Falhou");
         }
     }

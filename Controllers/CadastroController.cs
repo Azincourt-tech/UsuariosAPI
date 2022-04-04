@@ -14,8 +14,8 @@ using Microsoft.AspNetCore.Authorization;
 namespace UsuariosAPI.Controllers
 {
 
-    [Route("[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     public class CadastroController : ControllerBase
     {
         private CadastroService _cadastroService;
@@ -47,7 +47,7 @@ namespace UsuariosAPI.Controllers
             return Ok(resultado.Successes);
        }
 
-        [HttpDelete("/{id}")]
+        [HttpDelete("{id}")]
         public IActionResult ExcluirConta(int id)
         {
             Result result = _cadastroService.ExcluirContaPorID(id);

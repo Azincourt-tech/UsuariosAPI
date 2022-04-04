@@ -6,8 +6,8 @@ using System.Linq;
 
 namespace UsuariosAPI.Controllers
 {
-    [Route("[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     public class LoginController: ControllerBase
     {
 
@@ -32,7 +32,7 @@ namespace UsuariosAPI.Controllers
             }
         }
 
-        [HttpPost("/solicita-reset")]
+        [HttpPost("/Solicita-reset")]
         public IActionResult SolicitaResetSenhaUsuario(SolicitaResetRequest request)
         {
             Result resultado = _loginService.SolicitaResetSenhaUsuario(request);

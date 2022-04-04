@@ -4,8 +4,8 @@ using UsuariosAPI.Services;
 
 namespace UsuariosAPI.Controllers
 {
-    [Route("[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     public class LogoutController : ControllerBase
     {
         private LogoutService _logoutService;
